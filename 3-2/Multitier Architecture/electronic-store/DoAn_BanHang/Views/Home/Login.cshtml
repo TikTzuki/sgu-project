@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<br />
+<section>
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <h2 class="col-sm-12 title text-center">Đăng nhập</h2>
+            <div class="col-sm-4 col-sm-offset-2">
+                <div class="login-form">
+                    <!--login form-->
+                    <h2>Login to your account</h2>
+                    <div class="form1">
+                        <input type="text" placeholder="Name" id="tk"/>
+                        <input type="password" placeholder="Password" id="mk"/>
+                        <button type="submit" onclick="dangnhap()" class="btn btn-default">Login</button>
+                    </div>
+                </div><!--/login form-->
+            </div>
+            <div class="col-sm-2">
+                <h2 class="or">OR</h2>
+            </div>
+            <div class="col-sm-4">
+                <div class="signup-form">
+                    <!--sign up form-->
+                    <h2>New User Signup!</h2>
+                    <div class="form1">
+                        <input type="text" placeholder="Name" id="rten" />
+                        <input type="text" placeholder="Accout" id="rtk" />
+                        <input type="email" placeholder="Email Address" id="remail" />
+                        <input type="password" placeholder="Password" id="rmk" />
+                        <input type="password" placeholder="Confirm Password" id="remk" />
+                        <a type="submit" href="javascript: dangki()" class="btn btn-default">Signup</a>
+                    </div>
+                </div><!--/sign up form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->
+<br />
+
+@section script{
+    <script>
+        $("#lg").addClass("active");
+        function dangnhap() {
+            var form = new FormData();
+            form.append("tk", $("#tk").val());
+            form.append("mk", $("#mk").val());
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Home/JSDangNhap", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        alert("Đăng nhập thành công!!!!");
+                        location.reload();
+                    }
+                    else {
+                        alert("Tài khoản hoặc mật khẩu bị sai");
+                    }
+                }
+            }
+            xhr.send(form);
+        }
+        function dangki() {
+            if ($("#rten").val() == "" || $("#rtk").val() == "" || $("#rmk").val() == "" || $("#remk").val() == "" || $("#remail").val() == "") {
+                alert("Vui lòng nhập đầy đủ thông tin!!!");
+            } else {
+                var form = new FormData();
+                form.append("rtk", $("#rtk").val());
+                form.append("rmk", $("#rmk").val());
+                form.append("remail", $("#remail").val());
+                form.append("remk", $("#remk").val());
+                form.append("rten", $("#rten").val());
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Home/JSDangKi", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            alert("Đăng kí thành công!!!!");
+                            location.reload();
+                        } else if (json.Data.status == "ER") {
+                            alert("Sai yêu cầu thông tin");
+                        } else if (json.Data.status == "ERMK") {
+                            alert("Mật khẩu nhập lại không khớp");
+                        } else if (json.Data.status == "ERTK") {
+                            alert("Tài khoản đã tồn tại");
+                        }
+                        else {
+                            alert("Vui lòng nhập đầy đủ thông tin");
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+    </script>
+}

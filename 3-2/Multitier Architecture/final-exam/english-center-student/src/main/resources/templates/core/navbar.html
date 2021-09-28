@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <ul class="nav flex-column" th:fragment="navbar(routers)">
+    <!-- <ul class="navbar-primary-menu"> -->
+    <li class="nav-item" th:each="item: ${routers}">
+      <a class="nav-link" th:href="${item.url}">
+        <span class="glyphicon glyphicon-list-alt">
+          <i th:class="${item.icon}"></i>
+        </span>
+        <span class="nav-label" th:text="${item.text}"></span>
+      </a>
+    </li>
+    <!-- </ul> -->
+  </ul>
+</html>

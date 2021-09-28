@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<br />
+@{
+    CodeForDB.Code code = new CodeForDB.Code();
+}
+<section id="slider">
+    <!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="col-sm-6">
+                                <h1><span>ATV</span>-LAPTOP</h1>
+                                <h2>Hiện đại, thời thượng</h2>
+                                <p>
+                                    Luôn cập nhất các thiết bị mới nhất, hiện đại nhất.
+                                    Mang xu hướng hiện đại hóa.
+                                </p>
+                                <button type="button" class="btn btn-default get">Get it now</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="~/Content/images/home/GamePaly.png" height="400px" alt="" />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-sm-6">
+                                <h1><span>ATV</span>-LAPTOP</h1>
+                                <h2>Bền bĩ, mạnh mẽ</h2>
+                                <p>
+                                    Cấu hình tốt nhất, khả năng sử dụng để làm việc lâu dài, thích hợp cho những trận chiến đỉnh cao
+                                </p>
+                                <button type="button" class="btn btn-default get">Get it now</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="~/Content/images/home/unnamed.png" height="400px" alt="" />
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="col-sm-6">
+                                <h1><span>ATV</span>-LAPTOP</h1>
+                                <h2>Thời trang, màu sắc</h2>
+                                <p>
+                                    Mang phong thái của những màu sắc đẹp mắt người dùng, vóc dáng nhỏ gọn, dễ sử dụng.
+                                </p>
+                                <button type="button" class="btn btn-default get">Get it now</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="~/Content/images/home/Ram.png" height="400px" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/slider-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">HOT HOT HOT</h2>
+
+                    <div class="category-tab">
+                        <!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                @{
+                                    int active = 0;
+                                    foreach (Database.tbl_LoaiThietBi item in code.Get_LoaiThietBi())
+                                    {
+                                        active++;
+                                        if (active == 1)
+                                        {
+                                    <li class="active"><a href="#loai_@item.MaLoaiThietBi" data-toggle="tab">@item.TenLoaiThietBi</a></li>
+                                        }
+                                        else
+                                        {
+                                    <li><a href="#loai_@item.MaLoaiThietBi" data-toggle="tab">@item.TenLoaiThietBi</a></li>
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            @{
+                                active = 0;
+                                foreach (Database.tbl_LoaiThietBi items in code.Get_LoaiThietBi())
+                                {
+                                    active++;
+                                    if (active == 1)
+                                    {
+                                <div class="tab-pane fade active in" id="loai_@items.MaLoaiThietBi">
+                                    @{
+                                                int dem = 0;
+                                                foreach (Database.tbl_ThietBi item in code.Get_ThietBi().Where(m => m.MaLoaiThietBi == items.MaLoaiThietBi && m.MaTrangThaiKinhDoanh == 1 && m.SoLuong > 1).ToList())
+                                                {
+                                                    dem++;
+                                                    if (dem == 4)
+                                                    {
+                                                        break;
+                                                    }
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img style='height:260px' class="" src="~/Content/images/uploads/@item.HinhAnh" alt="" />
+                                                        <h2>@item.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                        <p>
+                                                            @{
+                                                                            Char[] mang = item.TenThietBi.ToCharArray();
+                                                                            string tam = "";
+                                                                            for (int i = 0; i < item.TenThietBi.Length && i < 25; i++)
+                                                                            {
+                                                                                tam += mang[i];
+                                                                            }
+                                                                            if (item.TenThietBi.Length >= 25)
+                                                                            {
+                                                                                tam += "...";
+                                                                            }
+                                                            }
+                                                            @tam
+                                                        </p>
+                                                        <a href="javascript: addcart(@item.MaThietBi,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                        <a href="/ProductDetail/ProductDetail/@item.MaThietBi" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                }
+                                    }
+                                </div>
+                                    }
+                                    else
+                                    {
+                                <div class="tab-pane fade" id="loai_@items.MaLoaiThietBi">
+                                    @{
+                                                int dem = 0;
+                                                foreach (Database.tbl_ThietBi item in code.Get_ThietBi().Where(m => m.MaLoaiThietBi == items.MaLoaiThietBi && m.MaTrangThaiKinhDoanh == 1 && m.SoLuong > 1).ToList())
+                                                {
+                                                    dem++;
+                                                    if (dem == 4)
+                                                    {
+                                                        break;
+                                                    }
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img style='height:260px' class="" src="~/Content/images/uploads/@item.HinhAnh" alt="" />
+                                                        <h2>@item.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                        <p>
+                                                            @{
+                                                                            Char[] mang = item.TenThietBi.ToCharArray();
+                                                                            string tam = "";
+                                                                            for (int i = 0; i < item.TenThietBi.Length && i < 25; i++)
+                                                                            {
+                                                                                tam += mang[i];
+                                                                            }
+                                                                            if (item.TenThietBi.Length >= 25)
+                                                                            {
+                                                                                tam += "...";
+                                                                            }
+                                                            }
+                                                            @tam
+                                                        </p>
+                                                        <a href="javascript: addcart(@item.MaThietBi,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                        <a href="/ProductDetail/ProductDetail/@item.MaThietBi" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                }
+                                    }
+                                </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    <!--/category-tab-->
+                    <br />
+                    <br />
+                    <div class="recommended_items">
+                        <!--recommended_items-->
+                        <h2 class="title text-center">recommended items</h2>
+
+                        <div class="row">
+                            @{
+                                int dem1 = 0;
+                                foreach (Database.tbl_ThietBi item in code.Get_ThietBi().Where(m=> m.MaTrangThaiKinhDoanh == 1 && m.SoLuong > 1).ToList())
+                                {
+                                    dem1++;
+                                    if (dem1 == 7)
+                                    {
+                                        break;
+                                    }
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img style='height:260px' class="" src="~/Content/images/uploads/@item.HinhAnh" alt="" />
+                                                <h2>@item.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                <p>
+                                                    @{
+                                                            Char[] mang = item.TenThietBi.ToCharArray();
+                                                            string tam = "";
+                                                            for (int i = 0; i < item.TenThietBi.Length && i < 25; i++)
+                                                            {
+                                                                tam += mang[i];
+                                                            }
+                                                            if (item.TenThietBi.Length >= 25)
+                                                            {
+                                                                tam += "...";
+                                                            }
+                                                    }
+                                                    @tam
+                                                </p>
+                                                <a href="javascript: addcart(@item.MaThietBi,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="/ProductDetail/ProductDetail/@item.MaThietBi" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <!--/recommended_items-->
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h2 class="title text-center">Company Address</h2>
+                            <a class="contact-map-block" href="https://goo.gl/maps/Gkxp41VXQ7SejJYi6" target="_blank"> <img class="contact-map lazy" alt="Bản đồ" src="https://img1.phongvu.vn/media/wysiwyg/phongvu/pv-showroom/pv-showroom-3.jpg"></a>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="contact-info">
+                                <h2 class="title text-center">Contact Info</h2>
+                                <address>
+                                    <p>ATV-Laptop</p>
+                                    <p>Phường 16, Quận 4, Thành phố Hồ Chí Minh</p>
+                                    <p>Việt Nam</p>
+                                    <p>Mobile: 0908569600</p>
+                                    <p>Email: lengothienan9a2.com</p>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+@section script{
+    <script>
+        $("#index").addClass("active");
+        function addcart(id, soluong) {
+            if (soluong != NaN && soluong > 0) {
+                var form = new FormData();
+                form.append("id", id);
+                form.append("soluong", soluong);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Cart/JSAddCart", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            alert("Thêm vào giỏ hàng thành công");
+                            location.href = "/Cart/Cart";
+                        } else if (json.Data.status == "MAX" || json.Data.status == "MAXX") {
+                            alert("Số lượng vượt quá cho phép");
+                        }
+                        else {
+                            alert("Lỗi thêm sản phẩm");
+                            location.reload();
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+    </script>
+}

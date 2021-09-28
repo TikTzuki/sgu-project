@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="core/head :: head">
+    <meta charset="utf-8">
+</head>
+
+<body>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-3">
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <div class="card">
+        <h3> Sign-in </h3>
+        <form th:action="@{/login}" method="post">
+            <div><label> Email : <input class="form-control" type="text" name="username"/> </label></div>
+            <div><label> Password: <input class="form-control" type="password" name="password"/> </label></div>
+            <div><input type="submit" class="btn btn-primary" value="Sign In"/></div>
+        </form>
+        </div>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3">
+        <div class="card">
+        <h3> Sign-up </h3>
+        <form class="input-group mb-3" action="#" th:action="@{/sign-up}" th:object="${signUpRequest}" method="post">
+            <div><label> Email : <input class="form-control" required="required" type="text" th:field="*{username}" name="username"/> </label></div>
+            <div><label> Full Name <input class="form-control" required="required" type="text" name="name" th:field="*{name}" /> </label></div>
+            <div><label> Phone <input class="form-control" required="required" type="text" name="phone" th:field="*{phone}"/> </label></div>
+            <div><label> Identity <input class="form-control" required="required" type="text" name="identity" th:field="*{identity}" /> </label></div>
+            <div><label> Password: <input class="form-control" required="required" type="password" name="password" th:field="*{password}"/> </label></div>
+            <div><label> Re-Type Password: <input class="form-control" required="required" type="password" name="re-password" th:field="*{rePassword}"/> </label></div>
+            <div><input type="submit" class="btn btn-primary" value="Sign-up"/></div>
+        </form>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+</body>
+</html>

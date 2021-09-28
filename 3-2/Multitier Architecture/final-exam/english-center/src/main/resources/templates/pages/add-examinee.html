@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="core/head :: head">
+    <meta charset="utf-8">
+</head>
+
+
+<body class="container-fluid">
+
+<header th:replace="core/header :: header">
+</header>
+
+<div class="row">
+    <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+    </div>
+    <div class="col-md-10">
+        Examination:
+        <select id="examinationId" name="examinationId" class="select-examination">
+            <option
+                    th:each="examination : ${examinations}"
+                    th:value="${examination.id}"
+                    th:text="|${examination.name} ${examination.startDate} - ${examination.endDate}|"
+            ></option>
+        </select>
+
+        Examinees
+        <table class="table table-bordered table-hover" id="examinees_table">
+            <thead>
+            <tr>
+                <th class="text-center">
+                    #
+                </th>
+                <th class="text-center">
+                    Name
+                </th>
+                <th class="text-center">
+                    Phone
+                </th>
+                <th class="text-center">
+                    Gender
+                </th>
+                <th class="text-center">
+                    Identity
+                </th>
+                <th class="text-center">
+                    Certificate
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id='addr0' class="data">
+                <td>
+                    1
+                </td>
+                <td >
+                    <input type="text" name='name' placeholder='name' class="form-control"/>
+                </td>
+                <td >
+                    <input type="text" name='phone' placeholder='phone' class="form-control"/>
+                </td>
+                <td>
+                    <select name='gender' class="select-gender" aria-label="select-certificate">
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name='identity' placeholder='identity' class="form-control"/>
+                </td>
+                <td>
+                    <select name='certificateId' class="select-certificate" aria-label="select-certificate">
+                    </select>
+                </td>
+            </tr>
+            <tr id='addr1' class="data"></tr>
+            </tbody>
+        </table>
+
+        <button id="add_row" type="button" class="btn btn-primary"> Thêm</button>
+        <button id="delete_row" class="btn btn-danger"> Xóa</button>
+        <button id="create_examinee" class="btn btn-primary"> Tạo</button>
+
+    </div>
+</div>
+
+<footer th:replace="core/footer :: footer">
+</footer>
+
+
+</body>
+
+</html>

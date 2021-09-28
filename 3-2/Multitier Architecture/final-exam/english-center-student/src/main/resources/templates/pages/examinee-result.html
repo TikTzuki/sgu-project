@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <head th:replace="core/head :: head">
+    <meta charset="utf-8" />
+  </head>
+
+  <body class="container-fluid">
+    <header th:replace="core/header :: header"></header>
+
+    <div class="row">
+      <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+      </div>
+      <div class="col-md-10">
+        <h1>Examinee Result</h1>
+        <div class="form-group">
+          <label for="examineeId"> Examinee Id </label>
+          <input
+            class="form-control"
+            type="text"
+            name="examineeId"
+            id="examineeId"
+          />
+          <button id="btnGetResult" class="btn btn-primary">Get Result</button>
+        </div>
+        <table
+          class="table table-bordered table-hover"
+          th:if="${examinee}"
+          th:object="${examinee}"
+        >
+          <tbody>
+            <tr>
+              <td>#</td>
+              <td th:text="${examinee.examineeId}"></td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td th:text="${examinee.name}"></td>
+            </tr>
+            <tr>
+              <td>Identity</td>
+              <td th:text="${examinee.identity}"></td>
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td th:text="${examinee.phone}"></td>
+            </tr>
+            <tr>
+              <td>Gender</td>
+              <td th:text="${examinee.gender}"></td>
+            </tr>
+            <tr>
+              <td>Listening</td>
+              <td th:text="${examinee.listenning}"></td>
+            </tr>
+            <tr>
+              <td>Writing</td>
+              <td th:text="${examinee.writing}"></td>
+            </tr>
+            <tr>
+              <td>Speaking</td>
+              <td th:text="${examinee.speaking}"></td>
+            </tr>
+            <tr>
+              <td>Reading</td>
+              <td th:text="${examinee.reading}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="core/footer :: footer"></footer>
+  </body>
+</html>

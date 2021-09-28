@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="core/head :: head">
+    <meta charset="utf-8">
+</head>
+
+<body>
+<div class="row">
+    <div class="col-6">
+        <form action="#" th:action="@{/sign-up}" th:object="${signUpRequest}" method="post">
+            <div><label> Email : <input required="required" type="text" th:field="*{username}" name="username"/> </label></div>
+            <div><label> Full Name <input required="required" type="text" name="name"/> </label></div>
+            <div><label> Phone <input required="required" type="text" name="phone"/> </label></div>
+            <div><label> Identity <input required="required" type="text" name="identity"/> </label></div>
+            <div><label> Password: <input required="required" type="password" name="password"/> </label></div>
+            <div><label> Re-Type Password: <input required="required" type="password" name="re-password"/> </label></div>
+            <div><input type="submit" value="Sign-up"/></div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

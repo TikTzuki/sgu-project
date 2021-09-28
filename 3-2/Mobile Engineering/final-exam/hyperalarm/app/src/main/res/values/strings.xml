@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">hyper-alarm</string>
+    <string name="delete">Xóa</string>
+    <string name="add_alarm">Thêm báo thức</string>
+</resources>

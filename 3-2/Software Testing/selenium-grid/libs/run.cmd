@@ -1,0 +1,2 @@
+start cmd.exe /k java -jar selenium-server-standalone-3.141.59.jar -role hub -host localhost
+start cmd.exe /k "java -Dwebdriver.chrome.driver="chromedriver.exe" -Dwebdriver.gecko.driver="geckodriver.exe" -jar "selenium-server-standalone-3.141.59.jar" -role node -hub "http://localhost:4444/grid/register/""

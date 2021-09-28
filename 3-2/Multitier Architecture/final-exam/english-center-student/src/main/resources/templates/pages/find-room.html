@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <head th:replace="core/head :: head">
+    <meta charset="utf-8" />
+  </head>
+
+  <body class="container-fluid">
+    <header th:replace="core/header :: header"></header>
+
+    <div class="row">
+      <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+      </div>
+      <div class="col-md-10">
+        <h1>Find Room</h1>
+        <div class="form-group">
+          <label for="name"> Name </label>
+          <input class="form-control" type="text" name="name" id="name" />
+          <label for="phone"> Phone </label>
+          <input class="form-control" type="text" name="phone" id="phone" />
+          <button id="btnFindRoom" class="btn btn-primary">Find Room</button>
+        </div>
+
+        <div th:if="${rooms}" th:each="room: ${rooms}">
+          <th:block th:object="${room}">
+            <table
+              class="table table-bordered table-hover"
+              style="margin-top: 5vh"
+              id="orderRoom"
+            >
+              <thead>
+                <tr>
+                  <th class="text-center">Examination</th>
+                  <th class="text-center">Start Date</th>
+                  <th class="text-center">End Date</th>
+                  <th class="text-center">Room Id</th>
+                  <th class="text-center">Certificate</th>
+                  <th class="text-center">Examinee Count</th>
+                  <th class="text-center">Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:object="${room}">
+                  <td th:text="*{examination.name}"></td>
+                  <td th:text="*{examination.startDate}"></td>
+                  <td th:text="*{examination.endDate}"></td>
+                  <td th:text="*{name}"></td>
+                  <td th:text="*{certificate.id}"></td>
+                  <td th:text="*{#lists.size(examinees)}"></td>
+                  <td><a th:href="|/room?roomId=*{id}|"> Detail </a></td>
+                </tr>
+              </tbody>
+            </table>
+          </th:block>
+        </div>
+        <div th:if="${#lists.size(rooms) == 0}">There no room!!!</div>
+      </div>
+    </div>
+
+    <footer th:replace="core/footer :: footer"></footer>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+Nội dung ôn thi:
+
+1) Chương 1: Tổng quan
+    + Học hết
+2) Chương 2: Các hệ mã hóa khóa bí mật
+    + Các hệ mã cổ điển: xem cả lý thuyết lẫn bài tập
+    + Bỏ phần mã khối (DES, AES): chỉ xem phần lý thuyết
+3) Chương 3: Các hệ mã hóa khóa công khai:
+    + Trapdoor	Knapsack
+    + RSA
+4) Chương 4: Chữ ký điện tử
+    + Xem thuật toán mã hóa để tạo chữ ký điện tử bằng RSA
+
+Kết hợp xem sơ qua giáo trình:
+https://drive.google.com/drive/folders/1rUdKohsPaLJddtqHdxOvTObs2ujz_fzN

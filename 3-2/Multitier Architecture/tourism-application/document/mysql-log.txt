@@ -1,0 +1,5 @@
+xoa table hotel, tourist_group_hotel
+them table tourist_group_cost, cost_type, tour_cost
+xoa field description, food_price, transport_price, hotel_price, other_price trong table tourist_group
+them description trong table location
+xoa field price trong table tour

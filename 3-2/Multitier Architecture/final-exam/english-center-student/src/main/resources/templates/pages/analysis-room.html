@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <head th:replace="core/head :: head">
+    <meta charset="utf-8" />
+  </head>
+
+  <body class="container-fluid">
+    <header th:replace="core/header :: header"></header>
+
+    <div class="row">
+      <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+      </div>
+      <div class="col-md-10">
+        <h1>Analysis room</h1>
+        <div th:each="certificate : ${certificates}">
+          <th:block th:object="${certificate}">
+            <h3 th:text="*{id}"></h3>
+            <h4
+              th:text="|Examination count: *{#lists.size(certificateSequences)}|"
+            ></h4>
+            <table class="table table-bordered table-hover" id="analysisRoom">
+              <thead>
+                <tr>
+                  <th class="text-center">Examination</th>
+                  <th class="text-center">Start Date</th>
+                  <th class="text-center">End Date</th>
+                  <th class="text-center">Room Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="seq : *{certificateSequences}">
+                  <th:block th:object="${seq.examination}">
+                    <td th:text="*{name}"></td>
+                    <td th:text="*{startDate}"></td>
+                    <td th:text="*{endDate}"></td>
+                    <td th:text="${seq.roomSequence}"></td>
+                  </th:block>
+                </tr>
+              </tbody>
+            </table>
+          </th:block>
+        </div>
+      </div>
+    </div>
+
+    <footer th:replace="core/footer :: footer"></footer>
+  </body>
+</html>

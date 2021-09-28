@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewBag.Title = "Combo";
+}
+
+
+@{
+    ViewBag.Title = "Product";
+}
+@{
+    CodeForDB.Code code = new CodeForDB.Code();
+}
+<style>
+    * {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .option-input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: relative;
+        top: 13.33333px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 40px;
+        width: 40px;
+        transition: all 0.15s ease-out 0s;
+        background: #cbd1d8;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 0.5rem;
+        outline: none;
+        position: relative;
+        z-index: 1000;
+    }
+
+        .option-input:hover {
+            background: #9faab7;
+        }
+
+        .option-input:checked {
+            background: #40e0d0;
+        }
+
+            .option-input:checked::before {
+                height: 40px;
+                width: 40px;
+                position: absolute;
+                content: '✔';
+                display: inline-block;
+                font-size: 26.66667px;
+                text-align: center;
+                line-height: 40px;
+            }
+
+            .option-input:checked::after {
+                -webkit-animation: click-wave 0.65s;
+                -moz-animation: click-wave 0.65s;
+                animation: click-wave 0.65s;
+                background: #40e0d0;
+                content: '';
+                display: block;
+                position: relative;
+                z-index: 100;
+            }
+
+        .option-input.radio {
+            border-radius: 50%;
+        }
+
+            .option-input.radio::after {
+                border-radius: 50%;
+            }
+
+    .hover-cata:hover {
+        background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );
+    }
+
+    .activel {
+        background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );
+    }
+</style>
+<br />
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <div class="brands_products">
+                        <!--brands_products-->
+                        <h2>Search</h2>
+                        <div class="thumbnail" style="border-width:thick;">
+                            <input type="search" style="outline: none; border: none;font-size: 18px;width: 100%" placeholder="Search..." onkeyup="search = $(this).val(); loc();" />
+                        </div>
+                    </div>
+                    <div class="brands_products">
+                        <!--brands_products-->
+                        <h2>Filter</h2>
+                        <div class="panel-group thumbnail" style="border-width:thick;" id="accordian">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a style="text-decoration: none" data-toggle="collapse" data-parent="#accordian" href="#price">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            Price
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="price" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="pr" name="locp" value="1" type="radio" checked />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Tăng <i class="fas fa-level-up-alt"></i></label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="pr" name="locp" value="2" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Giảm <i class="fas fa-level-down-alt"></i></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">Features Items</h2>
+                    <div class="row tab-content dv">
+                        @{
+                            int sl = code.Get_Combo().ToList().Count();
+                            for (int j = 1; j <= Math.Ceiling((float)sl / 9); j++)
+                            {
+                                string active = "active in";
+                                if (j != 1)
+                                {
+                                    active = "";
+                                }
+                                <div class="tab-pane fade @active" id="trang_@j">
+                                    @{
+                                        int dem = 0;
+                                        foreach (Database.tbl_Combo item in code.Get_Combo().ToList())
+                                        {
+                                            dem++;
+                                            if (dem > j * 9 - 9 && dem <= j * 9)
+                                            {
+                                                <div class="col-md-4 col-sm-12">
+                                                    <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                                        <div class="single-products">
+                                                            <div class="productinfo text-center">
+                                                                <img class="" src="@item.HinhAnh" alt="" style="height:250px" />
+                                                                <h2>@item.TongTien.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                                <p>
+                                                                    @{
+                                                                        Char[] mang = item.Ten.ToCharArray();
+                                                                        string tam = "";
+                                                                        for (int i = 0; i < item.Ten.Length && i < 25; i++)
+                                                                        {
+                                                                            tam += mang[i];
+                                                                        }
+                                                                        if (item.Ten.Length >= 25)
+                                                                        {
+                                                                            tam += "...";
+                                                                        }
+                                                                    }
+                                                                    @tam
+                                                                </p>
+                                                                <a href="javascript: addcart(@item.MaCombo,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                                <a href="/ComboDetail/ComboDetail/@item.MaCombo" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            }
+
+                        }
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <ul class="pagination">
+                            @{ for (int j = 1; j <= Math.Ceiling((float)sl / 9); j++)
+                                {
+                                    if (j == 1)
+                                    {
+                                        <li class="active"><a data-toggle="tab" onclick="phantrang(@j,@Math.Ceiling((float)sl / 9))" href="#trang_@j">@j</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="#trang_@j" data-toggle="tab" onclick="phantrang(@j,@Math.Ceiling((float)sl / 9))">@j</a></li>
+                                    }
+                                }
+                                if (Math.Ceiling((float)sl / 9) > 1)
+                                {
+                                    <li><a href="#trang_2" data-toggle="tab" onclick="phantrang(2,@Math.Ceiling((float)sl / 9))">&raquo;</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div><!--features_items-->
+            </div>
+        </div>
+    </div>
+</section>
+@section script{
+    <script>
+        var search = "";
+        $("#cb").addClass("active");
+        function phantrang(id, soluong) {
+            $(".pagination").html("");
+            if (id > 1) {
+                $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + (id - 1) + "," + soluong + ")' href='#trang_" + (id - 1) + "'>&laquo;</a></li>");
+            }
+            for (var i = 1; i <= soluong; i++) {
+                if (i == id) {
+                    $(".pagination").append("<li class='active'><a data-toggle='tab' onclick='phantrang(" + i + "," + soluong + ")' href='#trang_" + i + "'>" + i + "</a></li>");
+                } else {
+                    $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + i + "," + soluong + ")' href='#trang_" + i + "'>" + i + "</a></li>");
+                }
+            }
+            if (soluong > 1 && id < soluong) {
+                $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + (id + 1) + "," + soluong + ")' href='#trang_" + (id + 1) + "'>&raquo;</a></li>");
+            }
+        }
+        function addcart(id, soluong) {
+            if (soluong != NaN && soluong > 0) {
+                var form = new FormData();
+                form.append("id", id);
+                form.append("soluong", soluong);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Cart/JSAddComboCart", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            alert("Thêm vào giỏ hàng thành công");
+                            location.href = "/Cart/Cart";
+                        } else if (json.Data.status == "MAX" || json.Data.status == "MAXX") {
+                            alert("Số lượng vượt quá cho phép");
+                        }
+                        else {
+                            alert("Lỗi thêm sản phẩm");
+                            location.reload();
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+        function loc() {
+            var form = new FormData();
+            form.append("pr", $("#pr:checked").val());
+            form.append("search", search);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Combo/JSSearch", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        $(".dv").html(json.Data.context);
+                        phantrang(1,json.Data.soluong);
+                    }
+                    else {
+                        alert("Lỗi lọc");
+                        location.reload();
+                    }
+                }
+            }
+            xhr.send(form);
+        }
+    </script>
+}
+
+
+
+

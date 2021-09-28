@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Factory Login" verbose="10">
+	<parameter name="url" value="http://localhost:4200/"/>
+    <parameter name="os" value="windows"/>
+    <parameter name="node" value="http://192.168.56.1:48009"/>
+
+  <test name="Test on FireFox" group-by-instances="true">
+        <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="tiktzuki.selenium_grid.hybridframework.testcases.FactoryTestLogin"></class>
+    </classes>
+  </test>
+
+  <test name="Test on Chrome" group-by-instances="true">
+        <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="tiktzuki.selenium_grid.hybridframework.testcases.FactoryTestLogin"></class>
+    </classes>
+  </test>
+</suite>

@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "HistoryDetail";
+}
+@Scripts.Render("~/bundles/bootstrap")
+
+@model List<Database.tbl_ChiTietHoaDon>
+<br />
+
+@{
+    
+        <section id="cart_items">
+            <div class="container">
+                <h2 class="title text-center">History Detail Order</h2>
+                <div class="cart_info table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center" scope="col">Hình ảnh</th>
+                                <th class="text-center" scope="col">Tên</th>
+                                <th class="text-center" scope="col">Đơn giá</th>
+                                <th class="text-center" scope="col">Số lượng</th>
+                                <th class="text-center" scope="col">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (Database.tbl_ChiTietHoaDon item in Model)
+                                {
+                                    CodeForDB.Code code = new CodeForDB.Code();
+                                    Database.tbl_ThietBi tb = code.Get_ThietBi().FirstOrDefault(m => m.MaThietBi == item.MaThietBi);
+                                    <tr>
+                                        <th class="text-center" scope="col"><img style="width: 100px" src="~/Content/images/uploads/@tb.HinhAnh" alt="" /></th>
+                                        @{
+                                            Char[] mang = tb.TenThietBi.ToCharArray();
+                                            string tam = "";
+                                            for (int i = 0; i < tb.TenThietBi.Length && i < 50; i++)
+                                            {
+                                                tam += mang[i];
+                                            }
+                                            if (tb.TenThietBi.Length >= 50)
+                                            {
+                                                tam += "...";
+                                            }
+                                        }
+                                        <th class="text-center" scope="col"><a href="/ProductDetail/ProductDetail/@item.MaThietBi">@tam</a></th>
+                                        <th class="text-center" scope="col">@tb.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                                        <th class="text-center" scope="col"><i id="sl_@item.MaThietBi">@item.SoLuong</i></th>
+                                        <th class="text-center" id="tt_@item.MaThietBi" scope="col">@item.ThanhTien.ToString("#,##0").Replace(",", ".") VNĐ</th>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    }
+@section script{
+    <script>
+        $("#shop").addClass("active");
+        $("#history").addClass("active");
+    </script>
+}
+

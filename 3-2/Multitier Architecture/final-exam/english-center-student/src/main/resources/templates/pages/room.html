@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <head th:replace="core/head :: head">
+    <meta charset="utf-8" />
+  </head>
+
+  <body class="container-fluid">
+    <header th:replace="core/header :: header"></header>
+
+    <div class="row">
+      <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+      </div>
+      <div class="col-md-10">
+        <div class="col-md-10" th:object="${room}">
+          <h1> Room Detail </h1>
+          <div class="row">
+            <select class="select-examination" name="examinationId">
+              <option
+                th:each="examination : ${examinations}"
+                th:value="${examination.id}"
+                th:text="|${examination.name} ${examination.startDate} - ${examination.endDate}|"
+              ></option>
+            </select>
+          </div>
+          <div class="row">
+            <select class="select-room" name="roomId">
+
+            </select>
+            <button id="load-room" class="btn btn-primary">Load Room</button>
+          </div>
+          
+          <h3 th:text="|ROOM: *{name}|"></h3>
+          <table class="table table-bordered table-hover" id="orderRoom">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Identity</th>
+                <th class="text-center">Phone</th>
+                <th class="text-center">Gender</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="examinee : *{examinees}">
+                <td th:text="${examinee.examineeId}"></td>
+                <td th:text="${examinee.name}"></td>
+                <td th:text="${examinee.identity}"></td>
+                <td th:text="${examinee.phone}"></td>
+                <td th:text="${examinee.gender}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer th:replace="core/footer :: footer"></footer>
+  </body>
+</html>
+>
