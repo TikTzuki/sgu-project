@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoAn_BanHang", "DoAn_BanHang\DoAn_BanHang.csproj", "{F7DF2B0E-6814-4E39-A257-6D7B3F856A1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{351D7DAA-F772-4873-8ED2-023E8E854DC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeForDB", "CodeForDB\CodeForDB.csproj", "{E06F8A58-66CF-4DB8-8F5C-77887EA777A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7DF2B0E-6814-4E39-A257-6D7B3F856A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DF2B0E-6814-4E39-A257-6D7B3F856A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DF2B0E-6814-4E39-A257-6D7B3F856A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DF2B0E-6814-4E39-A257-6D7B3F856A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351D7DAA-F772-4873-8ED2-023E8E854DC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351D7DAA-F772-4873-8ED2-023E8E854DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351D7DAA-F772-4873-8ED2-023E8E854DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351D7DAA-F772-4873-8ED2-023E8E854DC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E06F8A58-66CF-4DB8-8F5C-77887EA777A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E06F8A58-66CF-4DB8-8F5C-77887EA777A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E06F8A58-66CF-4DB8-8F5C-77887EA777A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E06F8A58-66CF-4DB8-8F5C-77887EA777A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1471D6DC-01B8-491C-B925-932C896E3DB1}
+	EndGlobalSection
+EndGlobal

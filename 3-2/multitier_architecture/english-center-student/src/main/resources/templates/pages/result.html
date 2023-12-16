@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="core/head :: head">
+    <meta charset="utf-8">
+</head>
+
+
+<body class="container-fluid">
+
+<div class="row">
+    <div class="col-md-10">
+        <h3 th:text=" ${success} ? 'success' : 'failed' "></h3>
+        <th:block th:if="${data}">
+            <h3 th:text="${data}"></h3>
+        </th:block>
+        <a class="btn btn-primary" th:href="${callBackUrl}"> Tiep tuc</a>
+    </div>
+</div>
+
+</body>
+</html>

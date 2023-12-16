@@ -1,0 +1,2 @@
+rootProject.name = "hyper-galerry"
+include ':app'

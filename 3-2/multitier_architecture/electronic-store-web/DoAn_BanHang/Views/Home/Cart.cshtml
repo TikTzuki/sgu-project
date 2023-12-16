@@ -1,0 +1,171 @@
+﻿
+@Scripts.Render("~/bundles/bootstrap")
+@{
+    ViewBag.Title = "Cart";
+}
+@model List<DoAn_BanHang.Models.CartItem>
+<br />
+
+@{
+    if (Session["Cart"] == null || Model.Count() == 0)
+    {
+        <h1 class="text-center text-danger">Your cart is empty</h1>
+    }
+    else
+    {
+        <section id="cart_items">
+            <div class="container">
+                <h2 class="title text-center">Shopping Cart</h2>
+                <div class="cart_info table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center" scope="col">Hình ảnh</th>
+                                <th class="text-center" scope="col">Tên</th>
+                                <th class="text-center" scope="col">Đơn giá</th>
+                                <th class="text-center" scope="col">Số lượng</th>
+                                <th class="text-center" scope="col">Thành tiền</th>
+                                <th class="text-center" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (DoAn_BanHang.Models.CartItem item in Model)
+                                {
+                                    <tr id="gh_@item.SanPhamID">
+                                        <th class="text-center" scope="col"><img style="width: 100px" src="@item.Hinh" alt="" /></th>
+                                        <th class="text-center" scope="col"><a href="/Home/ProductDetail/@item.SanPhamID">@item.TenSanPham</a></th>
+                                        <th class="text-center" scope="col">@item.DonGia.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                                        <th class="text-center" scope="col"><a href="javascript: deccart(@item.SanPhamID,1)" class="btn"><i class="fas fa-angle-double-down"></i></a><i id="sl_@item.SanPhamID">@item.SoLuong</i><a href="javascript: addcart(@item.SanPhamID,1)" class="btn"><i class="fas fa-angle-double-up"></i></a></th>
+                                        <th class="text-center" id="tt_@item.SanPhamID" scope="col">@item.ThanhTien.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                                        <th class="text-center" scope="col"><a class="btn btn-danger" href="javascript: removeCart(@item.SanPhamID)">X</a></th>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="do_action">
+            <div class="container">
+                <div class="heading">
+                    <h3>What would you like to do next?</h3>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="total_area">
+                            <ul>
+                                <li>Cart Sub Total <span id="tongtien">@Model.Sum(m => m.ThanhTien).ToString("#,##0").Replace(",", ".") VNĐ</span></li>
+                                <li>Eco Tax <span>Free</span></li>
+                                <li>Shipping Cost <span>Free</span></li>
+                                <li>Total <span id="tongthanhtien">@Model.Sum(m => m.ThanhTien).ToString("#,##0").Replace(",", ".") VNĐ</span></li>
+                            </ul>
+                            <a class="btn btn-default update" href="/Home/Product/1">Shopping</a>
+                            <a class="btn btn-default check_out" href="/Home/Payment">Check Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+@section script{
+    <script>
+        function addcart(id, soluong) {
+            if (soluong != NaN && soluong > 0) {
+                var form = new FormData();
+                form.append("id", id);
+                form.append("soluong", soluong);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Home/JSAddCart", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            tongtien(json.Data.tongtien);
+                            $("#tt_" + id).html(json.Data.thanhtien);
+                            $("#sl_" + id).html(json.Data.soluong);
+                        } else if (json.Data.status == "MAXX") {
+                            alert("Số lượng vượt quá cho phép");
+                            tongtien(json.Data.tongtien);
+                            $("#tt_" + id).html(json.Data.thanhtien);
+                            $("#sl_" + id).html(json.Data.soluong);
+                        }
+                        else if (json.Data.status == "MAX") {
+                            alert("Số lượng vượt quá cho phép");
+                            tongtien(json.Data.tongtien);
+                            $("#gh_" + id).remove();
+                        }
+                        else {
+                            alert("Lỗi thêm sản phẩm");
+                            location.reload();
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+        function deccart(id) {
+            var form = new FormData();
+            form.append("id", id);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Home/JSDecCart", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        tongtien(json.Data.tongtien);
+                        $("#tt_" + id).html(json.Data.thanhtien);
+                        $("#sl_" + id).html(json.Data.soluong);
+                    } else if (json.Data.status == "MAXX") {
+                        alert("Số lượng giảm vượt quá cho phép");
+                    } else if (json.Data.status == "MAXXX") {
+                        alert("Số lượng giảm vượt quá cho phép");
+                        tongtien(json.Data.tongtien);
+                        $("#tt_" + id).html(json.Data.thanhtien);
+                        $("#sl_" + id).html(json.Data.soluong);
+                    }else if (json.Data.status == "MAX") {
+                        alert("Số lượng giảm vượt quá cho phép");
+                        tongtien(json.Data.tongtien);
+                        $("#gh_" + id).remove();
+                    }
+                    else {
+                        alert("Lỗi thêm sản phẩm");
+                        location.reload();
+                    }
+                }
+            }
+            xhr.send(form);
+        }
+        function tongtien(thanhtien) {
+            $("#tongtien").html(thanhtien);
+            $("#tongthanhtien").html(thanhtien);
+        }
+        function removeCart(id) {
+            if (confirm("Bạn muốn xóa sản phẩm ra khỏi giỏ hàng?")) {
+                var form = new FormData();
+                form.append("id", id);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Home/JSRemovesCart", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            alert("Xóa khỏi giỏ hàng thành công");
+                            $("#gh_" + id).remove();
+                            tongtien(json.Data.tongtien);
+                        }
+                        else {
+                            alert("Lỗi thêm sản phẩm");
+                            location.reload();
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+    </script>
+}

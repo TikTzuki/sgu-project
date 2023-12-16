@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">hyper-contacts</string>
+    <string name="chose_file_name">Tên file</string>
+    <string name="resource">Resource</string>
+    <string name="storage">Storage</string>
+    <string name="export">Export</string>
+    <string name="import_file">Import</string>
+    <string name="default_file_storage">contacts</string>
+    <string name="delete_contact">delete</string>
+    <string name="cancel">Cancel</string>
+</resources>

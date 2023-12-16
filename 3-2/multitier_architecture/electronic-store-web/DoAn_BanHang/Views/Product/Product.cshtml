@@ -1,0 +1,403 @@
+﻿
+@{
+    ViewBag.Title = "Product";
+}
+@{
+    CodeForDB.Code code = new CodeForDB.Code();
+}
+<style>
+    * {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .option-input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: relative;
+        top: 13.33333px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 40px;
+        width: 40px;
+        transition: all 0.15s ease-out 0s;
+        background: #cbd1d8;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 0.5rem;
+        outline: none;
+        position: relative;
+        z-index: 1000;
+    }
+
+        .option-input:hover {
+            background: #9faab7;
+        }
+
+        .option-input:checked {
+            background: #40e0d0;
+        }
+
+            .option-input:checked::before {
+                height: 40px;
+                width: 40px;
+                position: absolute;
+                content: '✔';
+                display: inline-block;
+                font-size: 26.66667px;
+                text-align: center;
+                line-height: 40px;
+            }
+
+            .option-input:checked::after {
+                -webkit-animation: click-wave 0.65s;
+                -moz-animation: click-wave 0.65s;
+                animation: click-wave 0.65s;
+                background: #40e0d0;
+                content: '';
+                display: block;
+                position: relative;
+                z-index: 100;
+            }
+
+        .option-input.radio {
+            border-radius: 50%;
+        }
+
+            .option-input.radio::after {
+                border-radius: 50%;
+            }
+
+    .hover-cata:hover {
+        background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );
+    }
+
+    .activel {
+        background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );
+    }
+</style>
+<br />
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Category</h2>
+                    <div class="panel-group category-products thumbnail" style="border-width:thick;" id="accordian">
+                        <!--category-productsr-->
+                        @{
+                            foreach (Database.tbl_LoaiThietBi item in code.Get_LoaiThietBi())
+                            {
+                                if (ViewBag.IDL == item.MaLoaiThietBi.ToString())
+                                {
+                            <a href="/Product/Product/@item.MaLoaiThietBi">
+                                <div class="panel-heading hover-cata btn activel">
+                                    <h4 class="panel-title w-100">
+                                        @item.TenLoaiThietBi
+                                    </h4>
+                                </div>
+                            </a>
+                                }
+                                else
+                                {
+                            <a href="/Product/Product/@item.MaLoaiThietBi">
+                                <div class="panel-heading hover-cata btn">
+                                    <h4 class="panel-title w-100">
+                                        @item.TenLoaiThietBi
+                                    </h4>
+                                </div>
+                            </a>
+                                }
+                            }
+                        }
+                    </div><!--/category-productsr-->
+                    <div class="brands_products">
+                        <!--brands_products-->
+                        <h2>Search</h2>
+                        <div class="thumbnail" style="border-width:thick;">
+                            <input type="search" style="outline: none; border: none;font-size: 18px;width: 100%" placeholder="Search..." onkeyup="search = $(this).val(); loc();" />
+                        </div>
+                    </div>
+                    <div class="brands_products">
+                        <!--brands_products-->
+                        <h2>Filter</h2>
+                        <div class="panel-group thumbnail" style="border-width:thick;" id="accordian">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a style="text-decoration: none" data-toggle="collapse" data-parent="#accordian" href="#price">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            Giá
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="price" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="gia" name="gia" value="0" type="radio" checked />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Tất cả</label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="gia" name="gia" value="1" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Dưới 1 triệu</label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="gia" name="gia" value="2" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>1 triệu - 5 triệu</label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="gia" name="gia" value="3" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>5 triệu - 10 triệu</label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="gia" name="gia" value="4" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Trên 10 triệu</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a style="text-decoration: none" data-toggle="collapse" data-parent="#accordian" href="#sapxep">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            Sắp xếp giá
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="sapxep" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="pr" name="locp" value="1" type="radio" checked />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Tăng <i class="fas fa-level-up-alt"></i></label>
+                                                </div>
+                                            </li>
+                                            <li class="pretty p-icon p-curve p-jelly">
+                                                <input onchange="loc()" id="pr" name="locp" value="2" type="radio" />
+                                                <div class="state p-info">
+                                                    <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                    <label>Giảm <i class="fas fa-level-down-alt"></i></label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--category-productsr-->
+                            @{
+                                int IDL = int.Parse(ViewBag.IDL);
+                                foreach (Database.tbl_ThongSo item in code.Get_ThongSo(IDL).ToList())
+                                {
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a style="text-decoration: none" data-toggle="collapse" data-parent="#accordian" href="#ma_@item.MaThongSo">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                @item.Ten
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="ma_@item.MaThongSo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                @foreach (Database.tbl_ChiTietThongSo items in code.Get_ChiTietThongSo(item.MaThongSo).ToList())
+                                                    {
+                                                <li class="pretty p-icon p-curve p-jelly">
+                                                    <input id="tt_@item.MaThongSo" onchange="loc()" class="locts" name="locts" value="@items.MaChiTietThongSo" type="checkbox" checked />
+                                                    <div class="state p-info">
+                                                        <i class="icon mdi mdi-bug fas fa-check"></i>
+                                                        <label>@items.Ten</label>
+                                                    </div>
+                                                </li>
+                                                    }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">Features Items</h2>
+                    <div class="row tab-content dv">
+                        @{
+                            int sl = code.Get_ThietBi().Where(m => m.MaLoaiThietBi == IDL).ToList().Count();
+                            for (int j = 1; j <= Math.Ceiling((float)sl / 9); j++)
+                            {
+                                string active = "active in";
+                                if (j != 1)
+                                {
+                                    active = "";
+                                }
+                            <div class="tab-pane fade @active" id="trang_@j">
+                                @{
+                                        int dem = 0;
+                                        foreach (Database.tbl_ThietBi item in code.Get_ThietBi().Where(m => m.MaLoaiThietBi == IDL && m.MaTrangThaiKinhDoanh==1 && m.SoLuong>1).ToList())
+                                        {
+                                            dem++;
+                                            if (dem > j * 9 - 9 && dem <= j * 9)
+                                            {
+                                    <div class="col-md-4 col-sm-12">
+                                        <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img height='260px' class="" src="~/Content/images/uploads/@item.HinhAnh" alt="" />
+                                                    <h2>@item.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                    <p>
+                                                        @{
+                                                                        Char[] mang = item.TenThietBi.ToCharArray();
+                                                                        string tam = "";
+                                                                        for (int i = 0; i < item.TenThietBi.Length && i < 25; i++)
+                                                                        {
+                                                                            tam += mang[i];
+                                                                        }
+                                                                        if (item.TenThietBi.Length >= 25)
+                                                                        {
+                                                                            tam += "...";
+                                                                        }
+                                                        }
+                                                        @tam
+                                                    </p>
+                                                    <a href="javascript: addcart(@item.MaThietBi,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    <a href="/ProductDetail/ProductDetail/@item.MaThietBi" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                            }
+                                        }
+                                }
+                            </div>
+                            }
+
+                        }
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <ul class="pagination">
+                            @{ for (int j = 1; j <= Math.Ceiling((float)sl / 9); j++)
+                                {
+                                    if (j == 1)
+                                    {
+                                <li class="active"><a data-toggle="tab" onclick="phantrang(@j,@Math.Ceiling((float)sl / 9))" href="#trang_@j">@j</a></li>
+                                    }
+                                    else
+                                    {
+                                <li><a href="#trang_@j" data-toggle="tab" onclick="phantrang(@j,@Math.Ceiling((float)sl / 9))">@j</a></li>
+                                    }
+                                }
+                                if (Math.Ceiling((float)sl / 9) > 1)
+                                {
+                                <li><a href="#trang_2" data-toggle="tab" onclick="phantrang(2,@Math.Ceiling((float)sl / 9))">&raquo;</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div><!--features_items-->
+            </div>
+        </div>
+    </div>
+</section>
+@section script{
+    <script>
+        var search = "";
+        $("#shop").addClass("active");
+        $("#product").addClass("active");
+        function phantrang(id, soluong) {
+            $(".pagination").html("");
+            if (id > 1) {
+                $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + (id - 1) + "," + soluong + ")' href='#trang_" + (id - 1) + "'>&laquo;</a></li>");
+            }
+            for (var i = 1; i <= soluong; i++) {
+                if (i == id) {
+                    $(".pagination").append("<li class='active'><a data-toggle='tab' onclick='phantrang(" + i + "," + soluong + ")' href='#trang_" + i + "'>" + i + "</a></li>");
+                } else {
+                    $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + i + "," + soluong + ")' href='#trang_" + i + "'>" + i + "</a></li>");
+                }
+            }
+            if (soluong > 1 && id < soluong) {
+                $(".pagination").append("<li><a data-toggle='tab' onclick='phantrang(" + (id + 1) + "," + soluong + ")' href='#trang_" + (id + 1) + "'>&raquo;</a></li>");
+            }
+        }
+        function loc() {
+            var testval = "";
+            $('.locts:checked').each(function () {
+                testval += $(this).val()+"/";
+            });
+            var form = new FormData();
+            form.append("testval", testval);
+            form.append("pr", $("#pr:checked").val());
+            form.append("gia", $("#gia:checked").val());
+            form.append("IDL", "@IDL");
+            form.append("search", search);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Product/JSSearch", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        $(".dv").html(json.Data.context);
+                        phantrang(1,json.Data.soluong);
+                    }
+                    else {
+                        alert("Lỗi lọc");
+                        location.reload();
+                    }
+                }
+            }
+            xhr.send(form);
+        }
+        function addcart(id,soluong) {
+            var form = new FormData();
+            form.append("id", id);
+            form.append("soluong", soluong);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Cart/JSAddCart", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        alert("Thêm vào giỏ hàng thành công");
+                        location.href="/Cart/Cart";
+                    } else if (json.Data.status == "MAX" || json.Data.status == "MAXX") {
+                        alert("Số lượng vượt quá cho phép");
+                    }
+                    else {
+                        alert("Lỗi thêm sản phẩm");
+                        location.reload();
+                    }
+                }
+            }
+            xhr.send(form);
+        }
+    </script>
+}
+
+

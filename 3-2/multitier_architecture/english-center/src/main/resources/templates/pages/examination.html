@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="core/head :: head">
+    <meta charset="utf-8">
+</head>
+
+
+<body class="container-fluid">
+
+<header th:replace="core/header :: header">
+</header>
+
+<div class="row">
+    <div class="col-md-2">
+        <nav th:replace="core/navbar :: navbar(routers=${routers})"></nav>
+    </div>
+    <div class="col-md-10">
+        Examination
+        <form action="#" th:action="@{/examination}" th:object="${examination}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label"></label>
+                <input id="name" type="text" th:field="*{name}" class="form-control" placeholder="Ky thi">
+            </div>
+
+            <div class="mb-3">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input id="startDate" type='date' class="form-control" th:field="*{startDate}"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="endDate" class="form-label">Start Date</label>
+                <input id="endDate" type='date' class="form-control" th:field="*{endDate}"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary"> Tạo</button>
+        </form>
+
+    </div>
+</div>
+
+<footer th:replace="core/footer :: footer">
+</footer>
+
+
+</body>
+</html>

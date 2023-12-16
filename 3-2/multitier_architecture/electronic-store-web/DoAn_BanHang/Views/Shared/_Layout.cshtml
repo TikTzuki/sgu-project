@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - LAPTOP</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
+	<link href="~/Content/css/prettyPhoto.css" rel="stylesheet">
+	<link href="~/Content/css/price-range.css" rel="stylesheet">
+	<link href="~/Content/css/animate.css" rel="stylesheet">
+	<link href="~/Content/css/css1.css" rel="stylesheet">
+	<link href="~/Content/css/responsive.css" rel="stylesheet">
+	<link rel="~/Content/shortcut icon" href="images/ico/favicon.ico">
+	<link rel="~/Content/apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="~/Content/apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="~/Content/apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="~/Content/apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="~/Content/images/icon/logo.png" type="image/x-icon" rel="icon"/>
+</head>
+
+
+
+<body>
+    <header id="header">
+        <div class="header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                    data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li><a href="/Home/Index" id="index"><i class="fas fa-home"></i> Home</a></li>
+                                <li class="dropdown">
+                                    <a href="/Product/Product/1" id="shop"><i class="fas fa-store"></i> Shop<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a href="/Product/Product/1" id="product"><i class="fas fa-desktop"></i> Products</a></li>
+                                        <li><a href="javascript: checkcarts()" id="checkout"><i class="fas fa-money-check"></i> Checkout</a></li>
+                                        <li><a href="/History/History" id="history"><i class="fas fa-history"></i> Order History</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/Cart/Cart" id="cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                                @*<li><a href="/Combo/Combo" id="cb"><i class="fas fa-tags"></i> Combo</a></li>*@
+                                @{
+                                    if (Session["User"] == null)
+                                    {
+                                        <li><a href="/Login/Login" id="lg"><i class="fas fa-user-plus"></i> Login & Register</a></li>
+                                    }
+                                    else
+                                    {
+                                        Database.tbl_KhachHang kh = (Database.tbl_KhachHang)Session["User"];
+                                        <li><a style="cursor: pointer"><i class="fas fa-user"></i> @kh.Ten</a></li>
+                                        <li><a href="javascript: dangxuat()" id="lg"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    }
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/header-bottom-->
+    </header>
+    @RenderBody()
+    <footer id="footer">
+        <!--Footer-->
+
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="single-widget">
+                            <h2>Service</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Online Help</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Order Status</a></li>
+                                <li><a href="#">Change Location</a></li>
+                                <li><a href="#">FAQ’s</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-widget">
+                            <h2>Quock Shop</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">T-Shirt</a></li>
+                                <li><a href="#">Mens</a></li>
+                                <li><a href="#">Womens</a></li>
+                                <li><a href="#">Gift Cards</a></li>
+                                <li><a href="#">Shoes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-widget">
+                            <h2>About Shopper</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Company Information</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Store Location</a></li>
+                                <li><a href="#">Affillate Program</a></li>
+                                <li><a href="#">Copyright</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="single-widget">
+                            <h2>Member</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Lê Ngô Thiên Ấn</a></li>
+                                <li><a href="#">Nguyễn Ngọc Hoàng Bảo Trân</a></li>
+                                <li><a href="#">Nguyễn Hoàng Anh</a></li>
+                                <li><a href="#">Thành Long</a></li>
+                                <li><a href="#">Thanh Phúc</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p class="pull-left">Copyright © 2021 E-LAPTOP Inc. All rights reserved.</p>
+                    <p class="pull-right">
+                        EDIT and Designed by <span>
+                            <a target="_blank"
+                               href="https://www.facebook.com/profile.php?id=100011258619306">Themeum & Lê Ngô Thiên Ấn</a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/jquery.scrollUp.min.js"></script>
+    <script src="~/Content/js/price-range.js"></script>
+    <script src="~/Content/js/jquery.prettyPhoto.js"></script>
+    <script src="~/Content/js/main.js"></script>
+
+    @RenderSection("script", required: false)
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+    <script>
+        function dangxuat() {
+            if (confirm("Bạn muốn đăng xuất thật à :((")) {
+                var form = new FormData();
+                form.append("logout", "logout");
+                var xhr = new XMLHttpRequest();
+                xhr.open("post", "/Home/DangXuat", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            location.reload();
+                        }
+                        else {
+                            location.reload();
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+        function checkcarts() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Payment/JSCheckCart", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.Data.status == "OK") {
+                        location.href = "/Payment/Payment";
+                    } else if (json.Data.status=="ERR") {
+                        alert("Giỏ hàng của bạn đang rỗng không thể thanh toán");
+                    }
+                    else {
+                        alert("Giỏ hàng có sự thay đổi do hàng hóa vượt quá số lượng!!! Bạn nên kiểm tra lại");
+                        location.href = "/Cart/Cart";
+                    }
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

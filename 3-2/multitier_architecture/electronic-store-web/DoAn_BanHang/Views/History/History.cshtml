@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "History";
+}
+@Scripts.Render("~/bundles/bootstrap")
+
+@model List<Database.tbl_HoaDon>
+<br />
+
+@{
+    if (Model.Count() == 0)
+    {
+        <h1 class="text-center text-danger">Your history is empty</h1>
+    }
+    else
+    {
+        <section id="cart_items">
+            <h2 class="title text-center">History Order</h2>
+            <div class="cart_info table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" scope="col">Người nhận</th>
+                            <th class="text-center" scope="col">Địa chỉ nhận</th>
+                            <th class="text-center" scope="col">Số điện thoại</th>
+                            <th class="text-center" scope="col">Ngày đặt</th>
+                            <th class="text-center" scope="col">Trạng thái thanh toán</th>
+                            <th class="text-center" scope="col">Trạng thái giao hàng</th>
+                            <th class="text-center" scope="col">Tổng tiền</th>
+                            <th class="text-center" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="his">
+                        @{
+                            int dem = 0;
+                            foreach (Database.tbl_HoaDon item in Model)
+                            {
+                                dem++;
+                                if (dem <= 8)
+                                {
+                                    string sdt = "0" + item.SDT;
+                                    <tr>
+                                        <th class="text-center" scope="col">@item.NguoiNhan</th>
+                                        <th class="text-center" scope="col">@item.DiaChiNhan</th>
+                                        <th class="text-center" scope="col">@sdt</th>
+                                        <th class="text-center" scope="col">@item.NgayLap</th>
+                                        @{
+                                            if (item.TrangThaiThanhToan == 1)
+                                            {
+                                                <th class="text-center" scope="col">Đã thanh toán</th>
+                                            }
+                                            else
+                                            {
+                                                <th class="text-center" scope="col">Chưa thanh toán</th>
+                                            }
+                                            if (item.MaTrangThaiDonHang == 1)
+                                            {
+                                                <th class="text-center" scope="col">Đã nhận hàng</th>
+                                            }
+                                            else
+                                            {
+                                                <th class="text-center" scope="col">Đã đặt</th>
+                                            }
+                                        }
+                                        <th class="text-center" scope="col">@item.TongTien.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                                        <th><a href="/HistoryDetail/HistoryDetail/@item.MaHoaDon" class="btn btn-primary">Xem chi tiết</a></th>
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div class="col-sm-12 text-center">
+                    @{
+                        if (Math.Ceiling((double)dem / 8) > 1)
+                        {
+                            for (int i = 1; i <= Math.Ceiling((double)dem / 8); i++)
+                            {
+                                if (i == 1)
+                                {
+                                    <a href="javascript: chuyentrang(1)" class="btn st btn-primary active st_@i">1</a>
+                                }
+                                else
+                                {
+                                    <a href="javascript: chuyentrang(@i);" class="btn st btn-primary st_@i">@i</a>
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            
+        </section>
+    }
+}
+@section script{
+    <script>
+        $("#shop").addClass("active");
+        $("#history").addClass("active");
+        function chuyentrang(sotrang) {
+            var form = new FormData();
+            form.append("sotrang", sotrang);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/History/JSPageHistory", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var json = JSON.parse(xhr.responseText);
+                    $("#his").html(json.Data.context);
+                    $(".st").removeClass("active");
+                    $(".st_" + sotrang).addClass("active");
+                }
+            }
+            xhr.send(form);
+        }
+    </script>
+}
+

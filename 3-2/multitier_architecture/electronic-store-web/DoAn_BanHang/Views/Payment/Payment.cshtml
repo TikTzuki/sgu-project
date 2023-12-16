@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+}
+@model List<DoAn_BanHang.Models.CartItem>
+
+<br/>
+<section id="cart_items">
+    <div class="container">
+        <h2 class="title text-center">Checkout</h2>
+        <p class="text-danger">*Giao hàng tận tay, thanh toán tận nơi</p>
+        <div class="shopper-informations">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="shopper-info">
+                        <p>Shopper Information</p>
+                        <form>
+                            <input type="text" id="finame" placeholder="First Name *">
+                            <input type="text" id="miname" placeholder="Middle Name">
+                            <input type="text" id="laname" placeholder="Last Name *">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-5 clearfix">
+                    <div class="bill-to">
+                        <p>Bill To</p>
+                        <div class="form-one">
+                            <form>
+                                <input type="text" id="add1" placeholder="Address 1 *">
+                                <input type="text" id="add2" placeholder="Address 2">
+                            </form>
+                        </div>
+                        <div class="form-two">
+                            <form>
+                                <select id="country">
+                                    <option value="Việt Nam">Việt Nam</option>
+                                </select>
+                                <select id="city">
+                                    <option value="Thành phố Hồ Chí Minh">Thành phố Hồ Chí Minh</option>
+                                </select>
+                                <select id="state">
+                                    <option value="">-- Quận --</option>
+                                    <option value="Quận 1">Quận 1</option>
+                                    <option value="Quận 2">Quận 2</option>
+                                    <option value="Quận 3">Quận 3</option>
+                                    <option value="Quận 4">Quận 4</option>
+                                    <option value="Quận 5">Quận 5</option>
+                                    <option value="Quận 6">Quận 6</option>
+                                    <option value="Quận 7">Quận 7</option>
+                                    <option value="Quận 8">Quận 8</option>
+                                    <option value="Quận 9">Quận 9</option>
+                                    <option value="Quận 10">Quận 10</option>
+                                    <option value="Quận 11">Quận 11</option>
+                                    <option value="Quận 12">Quận 12</option>
+                                    <option value="Quận Thủ Đức ">Quận Thủ Đức</option>
+                                    <option value="Quận Tân Phú">Quận Tân Phú</option>
+                                    <option value="Quận 1">Quận Bình Thạnh</option>
+                                    <option value="Quận Bình Thạnh">Quận Thủ Đức</option>
+                                    <option value="Quận Gò Vấp">Quận Gò Vấp</option>
+                                    <option value="Quận Phú Nhuận">Quận Phú Nhuận</option>
+                                    <option value="Quận Bình Tân">Quận Bình Tân</option>
+                                    <option value="Huyện Nhà Bè">Huyện Nhà Bè</option>
+                                    <option value="Huyện Hóc Môn">Huyện Hóc Môn</option>
+                                    <option value="Huyện Củ Chi">Huyện Củ Chi</option>
+                                    <option value="Huyện Cần Giờ">Huyện Cần Giờ</option>
+
+                                </select>
+                                <input type="number" placeholder="Phone *" id="phone">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+        </div>
+        <div class="review-payment">
+            <h2>Review & Payment</h2>
+        </div>
+
+        <div class="table-responsive cart_info">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">Hình ảnh</th>
+                        <th class="text-center" scope="col">Tên</th>
+                        <th class="text-center" scope="col">Đơn giá</th>
+                        <th class="text-center" scope="col">Số lượng</th>
+                        <th class="text-center" scope="col">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (DoAn_BanHang.Models.CartItem item in Model)
+                        {
+                            <tr id="gh_@item.SanPhamID">
+
+
+                                <th class="text-center" scope="col"><img style="width: 100px" src="~/Content/images/uploads/@item.Hinh" alt="" /></th>
+                                @{
+                                    Char[] mang = item.TenSanPham.ToCharArray();
+                                    string tam = "";
+                                    for (int i = 0; i < item.TenSanPham.Length && i < 50; i++)
+                                    {
+                                        tam += mang[i];
+                                    }
+                                    if (item.TenSanPham.Length >= 50)
+                                    {
+                                        tam += "...";
+                                    }
+                                }
+                                <th class="text-center" scope="col"><a href="/ProductDetail/ProductDetail/@item.SanPhamID">@tam</a></th>
+                                <th class="text-center" scope="col">@item.DonGia.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                                <th class="text-center" scope="col"><i id="sl_@item.SanPhamID">@item.SoLuong</i></th>
+                                <th class="text-center" id="tt_@item.SanPhamID" scope="col">@item.ThanhTien.ToString("#,##0").Replace(",", ".") VNĐ</th>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tr>
+                    <td colspan="4">&nbsp;</td>
+                    <td colspan="2">
+                        <table class="table table-condensed total-result">
+                            <tr>
+                                <td>Cart Sub Total</td>
+                                <td>@Model.Sum(m => m.ThanhTien).ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            </tr>
+                            <tr>
+                                <td>Exo Tax</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr class="shipping-cost">
+                                <td>Shipping Cost</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td><span>@Model.Sum(m => m.ThanhTien).ToString("#,##0").Replace(",", ".") VNĐ</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right">
+                        <a href="/Cart/Cart" class="btn btn-primary">Update Cart</a>
+                        <a href="javascript: checkpay()" class="btn btn-primary">Order</a>
+
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+@section script{
+    <script>
+        $("#shop").addClass("active");
+        $("#checkout").addClass("active");
+        function checkpay() {
+            var finame = $("#finame").val();
+            var miname = $("#miname").val();
+            var laname = $("#laname").val();
+            var add1 = $("#add1").val();
+            var add2 = $("#add2").val();
+            var country = $("#country").val();
+            var city = $("#city").val();
+            var state = $("#state").val();
+            var phone = $("#phone").val();
+            if (finame == "" || laname == "" || add1 == "" || state == "" || phone == "") {
+                alert("Vui lòng điền đầy đủ thông tin!!!!");
+            } else {
+                var form = new FormData();
+                form.append("finame", finame);
+                form.append("miname", miname);
+                form.append("laname", laname);
+                form.append("add1", add1);
+                form.append("add2", add2);
+                form.append("country", country);
+                form.append("city", city);
+                form.append("state", state);
+                form.append("phone", phone);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Payment/JSPayCheck", true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.status == 200 && xhr.readyState == 4) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.Data.status == "OK") {
+                            alert("Thanh toán thành công!!!");
+                            location.href = "/History/History";
+                        } else if (json.Data.status == "EMPTY") {
+                            alert("Vui lòng điền đầy đủ thông tin để thanh toán");
+                        } else if (json.Data.status == "ERRPHONE") {
+                            alert("Số Điện Thoại không đúng!!!");
+                        }
+                        else {
+                            alert("Giỏ hàng có sự thay đổi do hàng hóa vượt quá số lượng!!! Bạn nên kiểm tra lại");
+                            location.href = "/Cart/Cart";
+                        }
+                    }
+                }
+                xhr.send(form);
+            }
+        }
+    </script>
+    }

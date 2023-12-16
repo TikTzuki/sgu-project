@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "ProductDetail";
+}
+@{
+    CodeForDB.Code code = new CodeForDB.Code();
+    int MASP = int.Parse(ViewBag.ID);
+    Database.tbl_ThietBi tb = code.Get_ThietBi(MASP);
+}
+<br />
+<h2 class="title text-center">Detail Device</h2>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 padding-right">
+                <div class="product-details">
+                    <!--product-details-->
+                    <div class="col-sm-5">
+                        <div class="view-product">
+                            <img src="~/Content/images/uploads/@tb.HinhAnh" alt="" />
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="product-information">
+                            <h2>@tb.TenThietBi</h2>
+                            <p>Device ID: @tb.MaThietBi</p>
+                            <span>
+                                <span>@tb.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</span>
+                                <br />
+                                <label>Quantity:</label>
+                                <input type="text" id="sl" onkeyup="kiemtra()" value="1" />
+                                <a href="javascript: addcart(@tb.MaThietBi,$('#sl').val())" class="btn btn-fefault cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Add to cart
+                                </a>
+                            </span>
+                            <p><b>In Stock: </b> @tb.SoLuong</p>
+                            <p><b>Brand:</b> @code.Get_Hang(tb.MaHang).Ten</p>
+
+                        </div><!--/product-information-->
+                    </div>
+                </div><!--/product-details-->
+                <div class="category-tab shop-details-tab" style="border-width: 3px">
+                    <!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
+                            <li><a href="#describe" data-toggle="tab">Describe</a></li>
+                            <li><a href="#insets" data-toggle="tab">In sets</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active fade in" id="details">
+                            <div class="col-sm-12">
+                                @{
+                                    foreach (Database.tbl_ChiTietThietBi item in code.Get_ChiTietThietBi(tb.MaThietBi).ToList())
+                                    {
+                                        Database.tbl_ChiTietThongSo ct = code.Get_ChiTietThongSoThietBi(item.MaChiTietThongSo);
+                                        <p>@code.Get_ThongSoThietBi(ct.MaThongSo).Ten: @ct.Ten</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="describe">
+                            <div class="col-sm-12">
+                                <p>@tb.MoTa</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="insets">
+                            <div class="col-sm-12">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/category-tab-->
+
+                <div class="recommended_items">
+                    <!--recommended_items-->
+                    <h2 class="title text-center">recommended items</h2>
+                    <div class="row">
+                        @{
+                            int dem = 0;
+                            foreach (Database.tbl_ThietBi item in code.Get_ThietBi().Where(m => m.MaLoaiThietBi == tb.MaLoaiThietBi && m.MaThietBi != tb.MaThietBi && m.MaTrangThaiKinhDoanh == 1 && m.SoLuong > 1).ToList())
+                            {
+                                dem++;
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="thumbnail" style=" background: linear-gradient( 45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5) 100% );">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img class="" src="~/Content/images/uploads/@item.HinhAnh" alt="" />
+                                                <h2>@item.GiaBan.ToString("#,##0").Replace(",", ".") VNĐ</h2>
+                                                <p>
+                                                    @{
+                                                        Char[] mang = item.TenThietBi.ToCharArray();
+                                                        string tam = "";
+                                                        for (int i = 0; i < item.TenThietBi.Length && i < 25; i++)
+                                                        {
+                                                            tam += mang[i];
+                                                        }
+                                                        if (item.TenThietBi.Length >= 25)
+                                                        {
+                                                            tam += "...";
+                                                        }
+                                                    }
+                                                    @tam
+                                                </p>
+                                                <a href="javascript: addcart(@item.MaThietBi,1)" class="btn add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="/ProductDetail/ProductDetail/@item.MaThietBi" class="btn add-to-cart"><i class="fa fa-eye"></i>Detail</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                if (dem == 3)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section script{ 
+   <script>
+       function kiemtra() {
+           var sl=$("#sl").val();
+           if (sl != NaN && sl > 0) {
+           } else {
+               if (sl != "") {
+                   $("#sl").val("1");
+               }
+           }
+       }
+       function addcart(id, soluong) {
+           if (soluong != NaN && soluong > 0) {
+               var form = new FormData();
+               form.append("id", id);
+               form.append("soluong", soluong);
+               var xhr = new XMLHttpRequest();
+               xhr.open("POST", "/Cart/JSAddCart", true);
+               xhr.onreadystatechange = function () {
+                   if (xhr.status == 200 && xhr.readyState == 4) {
+                       var json = JSON.parse(xhr.responseText);
+                       if (json.Data.status == "OK") {
+                           alert("Thêm vào giỏ hàng thành công");
+                           location.href = "/Cart/Cart";
+                       } else if (json.Data.status == "MAX" || json.Data.status == "MAXX") {
+                           alert("Số lượng vượt quá cho phép");
+                       }
+                       else {
+                           alert("Lỗi thêm sản phẩm");
+                           location.reload();
+                       }
+                   }
+               }
+               xhr.send(form);
+           }
+       }
+   </script>
+}

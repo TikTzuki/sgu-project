@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/txtScheduleAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Schedule Alarm"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+            android:id="@+id/linerTimePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/txtScheduleAlarm">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.4"
+                android:text="Alarm Time"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <TimePicker
+                android:id="@+id/tpSchedulerAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:timePickerMode="spinner"/>
+    </LinearLayout>
+
+
+    <EditText
+            android:id="@+id/txtAlarmTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alarm Title"
+            app:layout_constraintTop_toBottomOf="@+id/linerTimePicker"/>
+
+    <Button
+            android:id="@+id/btnScheduleAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Schedule Alarm"
+            app:layout_constraintBottom_toTopOf="@+id/bottomContainer"/>
+
+    <LinearLayout
+            android:id="@+id/bottomContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
